@@ -1,6 +1,7 @@
 package com.gianlucaparadise.voicesearchdemo
 
 import android.app.SearchManager
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +18,21 @@ class SearchActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: ")
         setContentView(R.layout.activity_search)
 
-        val intent = intent
+        // This lifecycle callback is called when your app is closed (not in background)
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.d(TAG, "onNewIntent: ")
+
+        // This lifecycle callback is called when your app is in background
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        if (intent == null) return
+
         Log.d(TAG, "intent: " + intent.action!!)
         if (ACTION_SEARCH == intent.action) {
             val query = intent.getStringExtra(SearchManager.QUERY)
